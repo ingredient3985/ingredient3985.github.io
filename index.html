@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>カウンター</title>
+</head>
+
+<body>
+    <h1>カウントしたい項目を入力</h1>
+    <input type="text" id="name">
+    <button id="btn">追加</button>
+    <div id="CountList"></div>
+
+    <script type="text/javascript">
+        CountUnit_Next = 0;
+        CountUnit_CountArray = new Array();
+        var btn = document.getElementById("btn");
+        btn.addEventListener("click", function () {
+            let veName = document.getElementById("name");
+            CreateCountElement(veName);
+        })
+
+        function CreateCountElement(veName) {
+            console.log("CreateCountElement( )");
+            console.log("CountUnit_Next=" + CountUnit_Next);
+            let veCountList = document.getElementById("CountList");
+            // let vsHTML = veCountList.innerHTML;
+            let vsHTML =
+                "<div id='CountUnit" + CountUnit_Next + "'>" +
+                "<div id='Count" + CountUnit_Next + "_item' >" + veName.value + "</div>" +
+                "<div id='Count" + CountUnit_Next + "_disp' >0</div>" +
+                "<div id='Count" + CountUnit_Next + "_date' ><br></div>" +
+                "<button id='Count" + CountUnit_Next + "_up' onclick='Counter(" + CountUnit_Next + ", \"+\")' >＋</button>" +
+                "<button id='Count" + CountUnit_Next + "_down' onclick='Counter(" + CountUnit_Next + ", \"-\")' >－</button>" +
+                "<button id='Count" + CountUnit_Next + "_res' onclick='Counter(" + CountUnit_Next + ", \"0\")' >リセット</button>" +"<br>" +
+                "<br>" +
+                "</div>" +
+                "";
+            veCountList.innerHTML += vsHTML;
+            veName.value = "";
+            console.log(vsHTML);
+            CountUnit_Next++;
+        }
+        function Counter(unit, op) {
+            console.log("Counter( )");
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = today.getMonth() + 1;
+            let day = today.getDate();
+            let vsDate = year + '/' + month + '/' + day
+            console.log("unit=" + unit);
+            if (CountUnit_CountArray[unit] == void (0)) {
+                CountUnit_CountArray[unit] = 0;
+            }
+            console.log("Count" + unit + "_item");
+            console.log("Count" + unit + "_disp");
+            let veName = document.getElementById("Count" + unit + "_name");
+            let veDisp = document.getElementById("Count" + unit + "_disp");
+            let veDate = document.getElementById("Count" + unit + "_date");
+
+            switch (op) {
+                case "+":
+                    veDate.innerHTML = vsDate;
+                    CountUnit_CountArray[unit]++;
+                    break;
+                case "-":
+                    veDate.innerHTML = vsDate;
+                    CountUnit_CountArray[unit]--;
+                    if (CountUnit_CountArray[unit] <= 0) {
+                        veDate.innerHTML = "<br>";
+                        CountUnit_CountArray[unit] = 0;
+                    }
+                    break;
+                case "0":
+                    veDate.innerHTML = "<br>";
+                    CountUnit_CountArray[unit] = 0;
+                    break;
+            }
+            veDisp.innerHTML = CountUnit_CountArray[unit];
+        }
+
+    </script>
+</body>
